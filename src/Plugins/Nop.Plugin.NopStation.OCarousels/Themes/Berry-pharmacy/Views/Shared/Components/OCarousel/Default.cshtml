@@ -1,0 +1,21 @@
+﻿@model IEnumerable<OCarouselModel>
+
+@foreach (var carouselModel in Model)
+{
+    if (carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.BestSellers ||
+        carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.HomePageProducts ||
+        carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.NewProducts ||
+        carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.RecentlyViewedProducts ||
+        carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.Custom)
+    {
+        @await Html.PartialAsync("_ProductCarousel.cshtml", carouselModel)
+    }
+    else if (carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.Manufacturers)
+    {
+        @await Html.PartialAsync("_ManufacturerCarousel.cshtml", carouselModel)
+    }
+    else if (carouselModel.DataSourceTypeEnum == DataSourceTypeEnum.HomePageCategories)
+    {
+        @await Html.PartialAsync("_CategoryCarousel.cshtml", carouselModel)
+    }
+}

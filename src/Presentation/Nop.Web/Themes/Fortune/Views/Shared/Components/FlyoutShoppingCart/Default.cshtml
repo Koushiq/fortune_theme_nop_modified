@@ -1,0 +1,188 @@
+﻿@model MiniShoppingCartModel
+<div id="flyout-cart" class="flyout-cart">
+    <form id="mini-shopping-cart-form">
+        <div class="mini-shopping-cart">
+            <div class="cart-title">
+                <div>
+                    <i class="icon-cart"></i>
+                    <span>@T("ShoppingCart")</span>
+                </div>
+                <i class="icon-close cart-close"></i>
+            </div>
+            <div class="cart-banner">
+                @T("ShoppingCart.Mini.Banner")
+            </div>
+            @if (Model.TotalProducts > 0)
+            {
+                <div class="items">
+                    @for (var i = 0; i < Model.Items.Count; i++)
+                    {
+                        var item = Model.Items[i];
+                        <div class="item @(i == 0 ? "first" : null)">
+                            @if (Model.ShowProductImages)
+                            {
+                                <div class="picture">
+                                    <a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })" title="@item.Picture.Title" style="background-image: url('@item.Picture.ImageUrl');">
+                                        <img alt="@item.Picture.AlternateText" src="@item.Picture.ImageUrl" title="@item.Picture.Title" />
+                                    </a>
+                                </div>
+                            }
+                            <div class="product">
+                                <div class="overview">
+                                    <div class="name">
+                                        <a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })">@item.ProductName</a>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(item.AttributeInfo))
+                                    {
+                                        <div class="attributes">
+                                            @Html.Raw(item.AttributeInfo)
+                                        </div>
+                                    }
+                                    <div class="price-quantity">
+                                        <span>@item.UnitPrice</span> / <span>@item.Quantity</span>
+                                    </div>
+                                </div>
+                                <div class="quantity">
+                                    <div class="quantity-wrapper">
+                                        <span class="button-container">
+                                            <button class="cart-qty-minus" type="button" value="-">
+                                                <i class="icon-minus"></i>
+                                            </button>
+                                        </span>
+                                        <input type="checkbox" name="removefromcart" id="removefromcart@(item.Id)" value="@(item.Id)" aria-label="@T("ShoppingCart.Remove")" style="display:none;"/>
+                                        <input name="itemquantity@(item.Id)" id="itemquantity@(item.Id)" type="text" value="@(item.Quantity)" class="qty-input form-control" aria-label="@T("ShoppingCart.Quantity")" />
+                                        <span class="button-container">
+                                            <button class="cart-qty-plus" type="button" value="+">
+                                                <i class="icon-plus"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="remove">
+                                    <i class="icon-remove"></i>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="cart-summary">
+                    <div class="count">
+                        <i class="icon-cart"></i>
+                        @if (Model.TotalProducts == 0)
+                        {
+                            @T("ShoppingCart.Mini.NoItems")
+                        }
+                        else
+                        {
+                            @Html.Raw(string.Format($"<a href=\"{Url.RouteUrl("ShoppingCart")}\">{string.Format(T("ShoppingCart.Mini.Items").Text, Model.TotalProducts)}</a>"))
+                        }
+                    </div>
+                    <div class="totals">@T("ShoppingCart.Totals.SubTotal"): <strong>@Model.SubTotal</strong></div>
+                </div>
+                <div class="buttons">
+                    @if (Model.DisplayShoppingCartButton)
+                    {
+                        <input type="button" value="@T("ShoppingCart.Mini.ViewCart")" class="button-1 cart-button" onclick="setLocation('@(Url.RouteUrl("ShoppingCart"))')" />
+
+                    }
+                    @if (Model.DisplayCheckoutButton)
+                    {
+                        var checkoutUrl = "";
+                        if (Model.AnonymousCheckoutAllowed && Model.CurrentCustomerIsGuest)
+                        {
+                            checkoutUrl = Url.RouteUrl("LoginCheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") });
+                        }
+                        else
+                        {
+                            checkoutUrl = Url.RouteUrl("Checkout");
+                        }
+                        <input type="button" value="@T("Checkout.Button")" class="button-1 checkout-button" onclick="setLocation('@checkoutUrl')" />
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="cart-empty">
+                    <i class="icon-cart"></i>
+                    <span>@T("ShoppingCart.Mini.Empty")</span>
+                </div>
+                <div class="cart-summary">
+                    <div class="count">
+                        <i class="icon-cart"></i>
+                        @T("ShoppingCart.Mini.NoItems")
+                    </div>
+                    @*<div class="totals">@T("ShoppingCart.Totals.SubTotal"): <strong>@T("ShoppingCart.Mini.NoTotal")</strong></div>*@
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var buttonPlus = $(".cart-qty-plus");
+        var buttonMinus = $(".cart-qty-minus");
+
+        buttonPlus.on("click", function () {
+            var $qi = $(this)
+                .parent(".button-container")
+                .parent(".quantity-wrapper")
+                .find(".qty-input");
+            $qi.val(Number($qi.val()) + 1);
+            $qi.trigger("change");
+        });
+
+        buttonMinus.on("click", function () {
+            var $qi = $(this)
+                .parent(".button-container")
+                .parent(".quantity-wrapper")
+                .find(".qty-input");
+            var amount = Number($qi.val());
+            if (amount > 1) {
+                $qi.val(amount - 1);
+                $qi.trigger("change");
+            }
+        });
+    });
+    var quantityUpdating = null;
+    $("#flyout-cart input.qty-input").on("change", function (e) {
+        var quantity = $(this).val();
+        if (!quantity)
+            return;
+        if (!quantityUpdating) {
+            clearTimeout(quantityUpdating);
+            quantityUpdating = setTimeout(updateQuantity, 1000);
+        }
+    });
+
+    function updateQuantity() {
+        AjaxCart.setLoadWaiting(true);
+        $.ajax({
+            cache: false,
+            url: '@Url.RouteUrl("QuantityUpdate")',
+            data: $("#mini-shopping-cart-form").serialize(),
+            type: "POST",
+            success: AjaxCart.success_process,
+            complete: AjaxCart.resetLoadWaiting,
+            error: AjaxCart.ajaxFailure
+        });
+    }
+
+    $("#flyout-cart .remove .icon-remove").on("click", function (e) {
+        $(this).parent().siblings(".quantity").find("input[type=checkbox]").prop('checked', true);
+        $.ajax({
+            cache: false,
+            url: '@Url.RouteUrl("QuantityUpdate")',
+            data: $("#mini-shopping-cart-form").serialize(),
+            type: "POST",
+            success: AjaxCart.success_process,
+            complete: AjaxCart.resetLoadWaiting,
+            error: AjaxCart.ajaxFailure
+        });
+    });
+
+    $('.cart-close').on('click', function () {
+        $('#flyout-cart').removeClass('active');
+    });
+</script>

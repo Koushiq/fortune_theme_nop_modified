@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "home_page_top",
+    "Value": 1
+  },
+  {
+    "Name": "home_page_before_categories",
+    "Value": 2
+  },
+  {
+    "Name": "home_page_before_products",
+    "Value": 3
+  },
+  {
+    "Name": "home_page_before_best_sellers",
+    "Value": 4
+  },
+  {
+    "Name": "home_page_before_news",
+    "Value": 5
+  },
+  {
+    "Name": "home_page_before_poll",
+    "Value": 6
+  },
+  {
+    "Name": "home_page_bottom",
+    "Value": 7
+  },
+  {
+    "Name": "productdetails_bottom",
+    "Value": 8
+  },
+  {
+    "Name": "blogpost_page_after_comments",
+    "Value": 9
+  },
+  {
+    "Name": "bloglist_page_before_posts",
+    "Value": 10
+  },
+  {
+    "Name": "bloglist_page_after_posts",
+    "Value": 11
+  },
+  {
+    "Name": "fortune_add_left",
+    "Value": 12
+  },
+  {
+    "Name": "fortune_add_right",
+    "Value": 13
+  },
+  {
+    "Name": "fortune_top_add_1",
+    "Value": 14
+  },
+  {
+    "Name": "fortune_top_add_2",
+    "Value": 15
+  },
+  {
+    "Name": "fortune_top_add_3",
+    "Value": 16
+  },
+  {
+    "Name": "fortune_top_add_4",
+    "Value": 17
+  },
+  {
+    "Name": "fortune_add_middle_left",
+    "Value": 18
+  },
+  {
+    "Name": "fortune_add_middle_center",
+    "Value": 19
+  },
+  {
+    "Name": "fortune_add_middle_right",
+    "Value": 20
+  }
+]

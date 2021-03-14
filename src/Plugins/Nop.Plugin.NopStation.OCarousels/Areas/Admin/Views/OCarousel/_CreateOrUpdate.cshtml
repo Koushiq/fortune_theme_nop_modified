@@ -1,0 +1,25 @@
+﻿@model OCarouselModel
+
+@{
+    const string hideInfoBlockAttributeName = "OCarouselPage.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+
+    const string hidePropertiesBlockAttributeName = "OCarouselPage.HidePropertiesBlock";
+    var hidePropertiesBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePropertiesBlockAttributeName);
+
+    const string hideItemsBlockAttributeName = "OCarouselPage.HideItemsBlock";
+    var hideItemsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideItemsBlockAttributeName, defaultValue: true);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <nop-panels id="ocarousel-panels">
+            <nop-panel asp-name="ocarousel-info" asp-icon="fa fa-info" asp-title="@T("Admin.NopStation.OCarousels.Tab.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-panel>
+            <nop-panel asp-name="ocarousel-properties" asp-icon="fa fa-bars" asp-title="@T("Admin.NopStation.OCarousels.Tab.Properties")" asp-hide-block-attribute-name="@hidePropertiesBlockAttributeName" asp-hide="@hidePropertiesBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Properties", Model)</nop-panel>
+            <nop-panel asp-name="ocarousel-items" asp-icon="fa fa-th-list" asp-title="@T("Admin.NopStation.OCarousels.Tab.OCarouselItems")" asp-hide-block-attribute-name="@hideItemsBlockAttributeName" asp-hide="@hideItemsBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.OCarouselItems", Model)</nop-panel>
+        </nop-panels>
+    </div>
+</div>

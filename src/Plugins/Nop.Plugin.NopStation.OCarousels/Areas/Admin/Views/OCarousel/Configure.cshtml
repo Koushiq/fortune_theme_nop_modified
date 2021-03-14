@@ -1,0 +1,43 @@
+﻿@model ConfigurationModel
+
+@{
+    Layout = "_AdminLayout";
+    Html.SetActiveMenuItemSystemName("OCarousels.Configuration");
+    ViewBag.PageTitle = T("Admin.NopStation.OCarousels.Configuration").Text;
+}
+
+<form asp-controller="OCarousel" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.NopStation.OCarousels.Configuration")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="form-horizontal">
+            @await Component.InvokeAsync("StoreScopeConfiguration")
+            <div asp-validation-summary="All"></div>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="EnableOCarousel_OverrideForStore" asp-input="EnableOCarousel" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="EnableOCarousel" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="EnableOCarousel" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

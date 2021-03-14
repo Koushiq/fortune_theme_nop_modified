@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station Category Banner",
+  "SystemName": "NopStation.CategoryBanner",
+  "Version": "4.2.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.CategoryBanners.dll",
+  "Description": "This plugin allows to display category banner in category details page.",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

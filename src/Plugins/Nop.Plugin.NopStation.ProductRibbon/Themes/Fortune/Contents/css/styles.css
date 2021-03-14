@@ -1,0 +1,21 @@
+﻿/*product ribbon css*/
+.offer-content {
+  right: 10px;
+  left: unset !important;
+  font-size: 15px;
+}
+.product-item .offer-content .new-product-label,
+.product-details-page .offer-content .new-product-label {
+  background-color: #3FCE3C;
+  border-radius: 3px;
+}
+.product-item .offer-content .discount-info-label,
+.product-details-page .offer-content .discount-info-label {
+  background-color: #FF0707;
+  border-radius: 3px;
+}
+.product-item .offer-content .bestseller-label,
+.product-details-page .offer-content .bestseller-label {
+  background-color: #FF0707;
+  border-radius: 3px;
+}

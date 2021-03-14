@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station Fortune Theme",
+  "SystemName": "NopStation.Theme.Fortune",
+  "Version": "4.3.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.Theme.Fortune.dll",
+  "Description": "This plugin allows to configure NopStation Fortune theme.",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

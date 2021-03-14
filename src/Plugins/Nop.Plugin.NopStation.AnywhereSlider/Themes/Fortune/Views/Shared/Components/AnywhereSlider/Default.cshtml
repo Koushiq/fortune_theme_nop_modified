@@ -1,0 +1,6 @@
+﻿@model IEnumerable<SliderModel>
+
+@foreach (var sliderModel in Model)
+{
+    @await Html.PartialAsync("_SliderBox.cshtml", sliderModel)
+}

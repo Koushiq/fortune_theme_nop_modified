@@ -1,0 +1,18 @@
+﻿@inject Nop.Core.IWorkContext workContext
+
+@{
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    Html.AppendScriptParts(ResourceLocation.Footer, $"~/Plugins/NopStation.AnywhereSlider/Contents/script/owl.carousel.min.js");
+
+    if (supportRtl)
+    {
+        Html.AppendCssFileParts($"~/Plugins/NopStation.AnywhereSlider/Contents/css/rtl/owl.theme.green.min.css");
+        Html.AppendCssFileParts($"~/Plugins/NopStation.AnywhereSlider/Contents/css/rtl/owl.carousel.css");
+    }
+    else
+    {
+        Html.AppendCssFileParts($"~/Plugins/NopStation.AnywhereSlider/Contents/css/owl.theme.green.min.css");
+        Html.AppendCssFileParts($"~/Plugins/NopStation.AnywhereSlider/Contents/css/owl.carousel.css");
+    }
+    Html.AppendCssFileParts(ResourceLocation.Footer, $"~/Plugins/NopStation.AnywhereSlider/Contents/css/styles.css");
+}

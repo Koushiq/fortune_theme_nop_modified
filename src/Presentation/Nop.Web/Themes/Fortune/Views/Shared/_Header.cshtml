@@ -1,0 +1,80 @@
+﻿@inject Nop.Services.Orders.IShoppingCartService _shoppingCartService
+@inject Nop.Core.IWorkContext _workContext
+@inject Nop.Core.IStoreContext _storeContext
+
+@using Nop.Core.Domain.Orders 
+
+@{ 
+    var customer = _workContext.CurrentCustomer;
+    int shoppingCartQuantity = 0;
+    if (customer != null)
+    {
+        shoppingCartQuantity = (int)_shoppingCartService.
+                                    GetShoppingCart(customer,
+                                                    ShoppingCartType.ShoppingCart,
+                                                    _storeContext.CurrentStore.Id)?
+                                    .Sum(item => item.Quantity);
+    }
+}
+
+<div class="header">
+    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderBefore })
+    <div class="header-upper">
+        <div class="header-selectors-wrapper">
+            <div class="float-left state-currency-selector">
+                @await Component.InvokeAsync("TaxTypeSelector")
+                @await Component.InvokeAsync("CurrencySelector")
+                @await Component.InvokeAsync("LanguageSelector")
+            </div>
+            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderSelectors })
+        <div class="store-contact-info">
+            <a href="tel:@T("Header.Phone")">
+                <i class="icon-phone-call"></i>
+                <span>@T("Header.Phone")</span>
+            </a>
+            <a href="mailto:@T("Header.Email")">
+                <i class="icon-email"></i>
+                <span>@T("Header.Email")</span>
+            </a>
+        </div>
+            <div class="float-right header-links-wrapper">
+                @await Component.InvokeAsync("HeaderLinks")
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderMiddle })
+    <div class="header-lower">
+        <div class="container">
+            <div class="wrapper no-gutters">
+                <div class="col-9 col-md-6 col-lg-3 col-xl-3 order-1">
+                    <div class="header-menu-logo-wrapper">
+                        <div class="header-menu">
+                            @await Component.InvokeAsync("TopMenu")
+                        </div>
+                        <div class="header-logo">
+                            @await Component.InvokeAsync("Logo")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 order-3 order-lg-2">
+                    <div class="search-box store-search-box">
+                        @await Component.InvokeAsync("SearchBox")
+                    </div>
+                </div>
+                <div class="col-3 col-md-6 col-lg-5 order-2 order-lg-3">
+                    <ul class="cart-links" id="cart-links">
+
+                        <li id="topcartlink">
+                            <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
+                                <span class="cart-label"><i class="icon-cart"></i></span>
+                                <span class="cart-qty">@shoppingCartQuantity</span>
+                            </a>
+                            @await Component.InvokeAsync("FlyoutShoppingCart")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderAfter })
+</div>

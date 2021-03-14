@@ -1,0 +1,91 @@
+﻿@model SliderModel
+
+@if (Model.Items.Count > 0)
+{
+
+
+    @if (Model.ShowBackgroundPicture)
+    {
+        <div class="anywhere-slider-bg" style="background:url('@Model.BackgroundPictureUrl')no-repeat center; background-size: cover;">
+            <div class="anywhere-slider-container anywhere-slider-bg-container custom-container owl-carousel" id="anywhere-slider-@Model.Id">
+                @foreach (var sliderItemModel in Model.Items)
+                {
+                    <div class="anywhere-slider-item">
+                        <div class="slider-picture">
+                            <a href="@sliderItemModel.Link" title="@sliderItemModel.Title">
+                                <img alt="@sliderItemModel.ImageAltText" src="@sliderItemModel.PictureUrl" title="" />
+                            </a>
+                        </div>
+                        <div class="slider-caption">
+                            <h2 class="slider-title">@sliderItemModel.Title</h2>
+                            <h3 class="slider-subtitle">@sliderItemModel.ShortDescription</h3>
+                            @if (!string.IsNullOrWhiteSpace(sliderItemModel.Link))
+                            {
+                                <a href="@sliderItemModel.Link" class="button-1">
+                                    <i class="icon-cart"></i>
+                                    @T("NopStation.AnywhereSlider.Public.ShopNow")
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="anywhere-slider-container owl-carousel" id="anywhere-slider-@Model.Id">
+            @foreach (var sliderItemModel in Model.Items)
+            {
+                <div class="anywhere-slider-item">
+                    <a href="@sliderItemModel.Link">
+                        <div class="slider-picture">
+                            <a href="@sliderItemModel.Link" title="@sliderItemModel.Title">
+                                <img alt="@sliderItemModel.ImageAltText" src="@sliderItemModel.PictureUrl" title="" />
+                            </a>
+                        </div>
+                        <div class="slider-caption">
+                            <h2 class="slider-title">@sliderItemModel.Title</h2>
+                            <h3 class="slider-subtitle">@sliderItemModel.ShortDescription</h3>
+                            @if (!string.IsNullOrWhiteSpace(sliderItemModel.Link))
+                            {
+                                <a href="@sliderItemModel.Link" class="button-1">
+                                    <i class="icon-cart"></i>
+                                    @T("NopStation.AnywhereSlider.Public.ShopNow")
+                                </a>
+                            }
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+
+
+    <script asp-location="Footer">
+            $(document).ready(function () {
+                $('#anywhere-slider-@Model.Id').owlCarousel({
+                    nav: @Model.Nav.ToString().ToLower(),
+                    loop: @Model.Loop.ToString().ToLower(),
+                    dots: true,
+                    margin: 10,
+                    autoplay: @Model.AutoPlay.ToString().ToLower(),
+                    rtl: @Model.RTL.ToString().ToLower(),
+                    autoplayTimeout: @Model.AutoPlayTimeout,
+                    autoplayHoverPause: @Model.AutoPlayHoverPause.ToString().ToLower(),
+                    lazyLoad: @Model.LazyLoad.ToString().ToLower(),
+                    lazyLoadEager: @Model.LazyLoadEager,
+                    startPosition: @Model.StartPosition,
+                    animateOut: '@Model.AnimateOut',
+                    animateIn: '@Model.AnimateIn',
+                    responsive: {
+                        0: {
+                            items: 1
+                        }
+                    }
+                });
+            });
+    </script>
+
+
+}

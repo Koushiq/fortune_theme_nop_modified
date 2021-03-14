@@ -1,0 +1,26 @@
+﻿@using Nop.Core
+@using Nop.Web.Framework.Themes
+@inject IWorkContext workContext
+@inject IThemeContext themeContext
+@{
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    var themeName = themeContext.WorkingThemeName;
+
+    if (supportRtl)
+    {
+        Html.AddCssFileParts($"~/Plugins/NopStation.ProductRibbon/Themes/{themeContext.WorkingThemeName}/Contents/css/styles.rtl.css");
+        Html.AppendCssFileParts($"~/Plugins/NopStation.ProductRibbon/Contents/css/styles.css");
+    }
+    else
+    {
+        Html.AddCssFileParts($"~/Plugins/NopStation.ProductRibbon/Themes/{themeContext.WorkingThemeName}/Contents/css/styles.css");
+        Html.AppendCssFileParts($"~/Plugins/NopStation.ProductRibbon/Contents/css/styles.css");
+    }
+}
+
+@*@{
+
+    Html.AppendCssFileParts($"~/Plugins/NopStation.ProductRibbon/Themes/Fortune/Contents/css/styles.css");
+    Html.AppendCssFileParts($"~/Plugins/NopStation.ProductRibbon/Contents/css/styles.css");
+
+}*@

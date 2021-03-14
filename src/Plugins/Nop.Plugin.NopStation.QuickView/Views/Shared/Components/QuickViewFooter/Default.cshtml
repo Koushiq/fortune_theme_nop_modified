@@ -1,0 +1,26 @@
+﻿@model PublicFooterModel
+@using Nop.Web.Framework.UI
+
+@{
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/NopStation.QuickView/Contents/js/api.quickview.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/NopStation.QuickView/Contents/js/jquery.fullscreen-popup.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/NopStation.QuickView/Contents/js/jquery.magnific-popup.min.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/NopStation.QuickView/Contents/js/slick.min.js");
+
+    Html.AppendCssFileParts("~/Plugins/NopStation.QuickView/Contents/css/magnific-popup.css");
+    Html.AppendCssFileParts("~/Plugins/NopStation.QuickView/Contents/css/styles.css");
+}
+
+<div id="qv-modal"></div>
+<button type="button" style="display: none" id="qv-button"></button>
+
+<script asp-location="Footer">
+    function loadQuickViewProduct(productId) {
+        api.viewProductDetails({
+            data: {
+                productId: productId,
+                pictureZoom: @Model.PictureZoomEnabled.ToString().ToLower()
+            }
+        });
+    }
+</script>

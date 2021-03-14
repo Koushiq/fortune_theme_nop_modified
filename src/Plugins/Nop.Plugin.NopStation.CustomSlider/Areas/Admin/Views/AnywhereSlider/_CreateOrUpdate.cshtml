@@ -1,0 +1,25 @@
+﻿@model SliderModel
+
+@{
+    const string hideInfoBlockAttributeName = "SliderPage.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+
+    const string hidePropertiesBlockAttributeName = "SliderPage.HidePropertiesBlock";
+    var hidePropertiesBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePropertiesBlockAttributeName);
+
+    const string hideItemsBlockAttributeName = "SliderPage.HideItemsBlock";
+    var hideItemsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideItemsBlockAttributeName, defaultValue: true);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <nop-panels id="slider-panels">
+            <nop-panel asp-name="slider-info" asp-icon="fa fa-info" asp-title="@T("Admin.NopStation.CustomSlider.Tab.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Info", Model)</nop-panel>
+            <nop-panel asp-name="slider-properties" asp-icon="fa fa-bars" asp-title="@T("Admin.NopStation.CustomSlider.Tab.Properties")" asp-hide-block-attribute-name="@hidePropertiesBlockAttributeName" asp-hide="@hidePropertiesBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.Properties", Model)</nop-panel>
+            <nop-panel asp-name="slider-items" asp-icon="fa fa-th-list" asp-title="@T("Admin.NopStation.CustomSlider.Tab.SliderItems")" asp-hide-block-attribute-name="@hideItemsBlockAttributeName" asp-hide="@hideItemsBlock" asp-advanced="false">@await Html.PartialAsync("_CreateOrUpdate.SliderItems", Model)</nop-panel>
+        </nop-panels>
+    </div>
+</div>

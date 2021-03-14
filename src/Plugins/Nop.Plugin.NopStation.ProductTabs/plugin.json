@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station Product Tab",
+  "SystemName": "NopStation.ProductTabs",
+  "Version": "4.3.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.ProductTabs.dll",
+  "Description": "This plugin allows to display product tabs on public store.",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

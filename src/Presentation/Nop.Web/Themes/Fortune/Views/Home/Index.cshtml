@@ -1,0 +1,88 @@
+﻿@using Nop.Services.Plugins;
+@using Nop.Services.Cms;
+@inject IWidgetPluginManager widgetPluginManager
+@inject IPluginService pluginService;
+@{
+    bool isJcarouselPluginInstall = widgetPluginManager.LoadPluginBySystemName("NopStation.OCarousels") != null;
+    bool isHomepageNewsEnable = widgetPluginManager.LoadPluginBySystemName("NopStation.BlogNews") != null;
+}
+@{
+    Layout = "_ColumnsOne-homepage";
+
+    //page class
+    Html.AppendPageCssClassParts("html-home-page");
+}
+<div class="page home-page">
+    <div class="page-body">
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageTop })
+        <div class="custom-container homepage-add-4column">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_top_add_1" })
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_top_add_2" })
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_top_add_3" })
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_top_add_4" })
+                </div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("TopicBlock", new { systemName = "HomepageText" })
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeCategories })
+
+        @if (!isJcarouselPluginInstall)
+        {
+            @await Component.InvokeAsync("HomepageCategories")
+        }
+
+
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeProducts })
+        <div class="custom-container homepage-add-3column">
+            <div class="row">
+                <div class="col-md-4">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_add_middle_left" })
+                </div>
+
+                <div class="col-md-4">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_add_middle_center" })
+                </div>
+                <div class="col-md-4">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_add_middle_right" })
+                </div>
+            </div>
+        </div>
+        @if (!isJcarouselPluginInstall)
+        {
+            @await Component.InvokeAsync("HomepageProducts")
+        }
+
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeBestSellers })
+        @await Component.InvokeAsync("HomepageBestSellers")
+
+        <div class="custom-container homepage-add-2column">
+            <div class="row">
+                <div class="col-md-6">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_add_left" })
+                </div>
+
+                <div class="col-md-6">
+                    @await Component.InvokeAsync("Widget", new { widgetZone = "fortune_add_right" })
+                </div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforeNews })
+
+        @if (!isHomepageNewsEnable)
+        {
+            @await Component.InvokeAsync("HomepageNews")
+        }
+
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBeforePoll })
+        @await Component.InvokeAsync("HomepagePolls")
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HomepageBottom })
+    </div>
+</div>
